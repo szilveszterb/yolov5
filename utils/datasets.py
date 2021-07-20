@@ -535,6 +535,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                                                  scale=hyp['scale'],
                                                  shear=hyp['shear'],
                                                  perspective=hyp['perspective'])
+                img = img.reshape(img.shape + (1,))
 
             # Don't augment colorspace for grayscale processing
             # augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
@@ -567,7 +568,6 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             labels_out[:, 1:] = torch.from_numpy(labels)
 
         # Skip Convert of BGR to RGB; processing grayscale, convert from w,h,c -> c,w,h
-        img = img.reshape(img.shape + (1,))
         img = img.transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)
 
