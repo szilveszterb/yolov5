@@ -526,7 +526,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             if labels.size:  # normalized xywh to pixel xyxy format
                 labels[:, 1:] = xywhn2xyxy(labels[:, 1:], ratio[0] * w, ratio[1] * h, padw=pad[0], padh=pad[1])
 
-        if False:  # self.augment:
+        if self.augment:
             # Augment imagespace
             if not mosaic:
                 img, labels = random_perspective(img, labels,
@@ -567,6 +567,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             labels_out[:, 1:] = torch.from_numpy(labels)
 
         # Skip Convert of BGR to RGB; processing grayscale, convert from w,h,c -> c,w,h
+        img = img.reshape(img.shape + (1,))
         img = img.transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)
 
