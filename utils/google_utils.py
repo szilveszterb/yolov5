@@ -7,7 +7,7 @@ import time
 import urllib
 from pathlib import Path
 
-import requests
+# import requests
 import torch
 
 
